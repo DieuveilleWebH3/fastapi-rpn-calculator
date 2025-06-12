@@ -14,4 +14,6 @@ def rpn_calculator(expression: str) -> float:
                 stack.append(a / b)
         else:
             stack.append(float(token))
+    if len(stack) != 1:
+        raise ValueError("Invalid RPN expression: stack should contain exactly one element after evaluation.")
     return stack[0]
