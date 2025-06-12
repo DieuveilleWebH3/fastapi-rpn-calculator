@@ -1,91 +1,91 @@
 
 # 🧮 RPN Calculator API – FastAPI + Docker + PostgreSQL
 
-## 🎯 Objectif
+## 🎯 Objective
 
-Ce projet propose la création d'une **API REST de calculatrice en Notation Polonaise Inverse (RPN)**.
-L’objectif est d’aider nos utilisateurs à effectuer des calculs complexes tout en conservant l’historique des opérations en base de données.
-L’application doit également permettre l’**export CSV** des résultats.
+This project proposes the creation of a **REST API for a Reverse Polish Notation (RPN) calculator**.
+The goal is to help our users perform complex calculations while keeping a history of operations in a database.
+The application should also allow for **CSV export** of results.
 
-Le projet est découpé et géré selon une méthodologie **Scrum** avec des **tickets estimés en story points Fibonacci**.
+The project is divided and managed according to a **Scrum** methodology with **tickets estimated in Fibonacci story points**.
 
 ---
 
-## 📅 Durée & Organisation
+## 📅 Duration & Organization
 
-- **Sprint unique** : 8 jours
-- **Start**: Lundi 16 Juin 2025
-- **End**: Mercredi 25 Juin 2025
+- **Single Sprint**: 8 days
+- **Start**: Monday, June 16, 2025
+- **End**: Wednesday, June 25, 2025
 
-> 🎲 1 Story Point = 1 jour de travail
+> 🎲 1 Story Point = 1 day of work
 >
-> Suite Fibonacci utilisée : 1, 2, 3, 5, 8...
+> Fibonacci sequence used: 1, 2, 3, 5, 8...
 
 ---
 
-## 🧑‍🤝‍🧑 Équipe projet
+## 🧑‍🤝‍🧑 Project Team
 
-| Rôle           | Nom / Référence             | Missions principales                         |
-|----------------|-----------------------------|----------------------------------------------|
-| Tech Lead      | [John Doe]                  | Architecture, revues, guidage métier         |
-| Dev Backend    | Développeur Python Junior   | Implémentation de l’algo, API                |
-| DevOps         | Ingénieur Infrastructure    | Docker, PostgreSQL, CI/CD                    |
-| Scrum Master   | Scrum Master / Tech Lead    | Suivi d'avancement, daily, coordination      |
+| Role           | Name / Reference            | Main Missions                               |
+|----------------|-----------------------------|---------------------------------------------|
+| Tech Lead      | [Dieuveille BOUSSA]                  | Architecture, reviews, business guidance    |
+| Dev Backend    | Junior Python Developer     | Implementation of the algorithm, API        |
+| DevOps         | Infrastructure Engineer / Tech Lead     | Docker, PostgreSQL, CI/CD                   |
+| Scrum Master   | Scrum Master / Tech Lead    | Progress tracking, daily, coordination      |
 
 ---
 
-## 📋 Responsabilités clés
+## 📋 Key Responsibilities
 
 ### 👨‍💻 Tech Lead Python
 
-- Choix techniques (FastAPI, PostgreSQL, SQLAlchemy, etc.)
+- Technical choices (FastAPI, PostgreSQL, SQLAlchemy, etc.)
 
-- Revue de code et pair programming
+- Code review and pair programming
 
-- Garant des principes SOLID, KISS, YAGNI
+- Ensuring SOLID, KISS, YAGNI principles
 
-- Définition de l’architecture modulaire : séparation des couches (API, services, persistance)
+- Defining modular architecture: separation of layers (API, services, persistence, etc.)
 
 ### 🧑‍🏫 Scrum Master
 
-- Animation des daily stand-up, sprint planning & retro
+- Facilitation of daily stand-ups, sprint planning & retrospectives
 
-- Suivi du burn-down chart
+- Monitoring of the burn-down chart
 
-- Mise en place du kanban/scrum board (ex : Jira, Notion, Trello)
+- Setting up the kanban/scrum board (e.g., Jira, Notion, Trello)
 
 ### 🧑‍💻 DevOps Engineer
 
-- Écriture des Dockerfiles
+- Writing Dockerfiles
 
-- Configuration docker-compose
+- Configuring docker-compose
 
-- Configuration PostgreSQL, gestion des volumes
+- Configuring PostgreSQL, managing volumes
 
-- CI/CD (ex : GitHub Actions)
+- CI/CD (e.g., GitHub Actions)
 
 ---
 
-## 🧱 Organisation technique
+## 🧱 Technical Organization
 
-### 📁 Arborescence Clean Architecture (inspirée SOLID)
+### 📁 Clean Architecture Structure (inspired by SOLID)
 
 ```arduino
 app/
-├── github/              # intégration GitHub (actions, workflows)
+├── github/              # GitHub integration (actions, workflows)
 │   ├── workflows/
 │   │   ├── ci.yml
-├── api/                 # routes FastAPI
+├── api/                 # FastAPI routes
 │   ├── routes.py
-├── core/             # logique métier (calcul NPI)
+├── core/             # business logic (RPN calculation)
 │   ├── rpn.py
-├── db/               # modèles ORM, sessions
+├── db/               # ORM models, sessions
 │   ├── database.py
-├── models/               # modèles ORM, sessions
+├── models/               # ORM models, sessions
 │   ├── models.py
-├── schemas/          # pydantic schemas
+├── schemas/          # Pydantic schemas
 │   ├── schemas.py
-├── services/         # services métier
+├── services/         # business services
 │   ├── services.py
 tests/
 ├── test_integration.py
@@ -100,74 +100,68 @@ requirements.txt
 wait-for-db.sh
 ```
 
-## 📦 Fonctionnalités
+## 📦 Features
 
-- Calcul RPN (notation polonaise inverse)
-- API REST FastAPI
-- Stockage en PostgreSQL
-- Export CSV
-- Conteneurisation Docker avec Docker Compose
-
----
-
-## 🗂️ Découpage en tickets
-
-| ID    | Titre                                      | Story Points | Due Date  | Critères d’acceptation |
-|-------|--------------------------------------------|--------------|-----------|--------------------------|
-| T1    | Initialisation projet + structure Clean     | 1 SP         | 16/06     | Projet FastAPI structuré en dossiers `api`, `core`, `schemas`, etc. Fichier `.env` en place |
-| T2    | Implémentation de l’algorithme RPN         | 2 SP         | 17/06     | La fonction `rpn_calculator(expr)` gère `+`, `-`, `*`, `/` et retourne le bon résultat |
-| T3    | Création des schémas Pydantic              | 1 SP         | 17/06     | Les schémas `OperationRequest` et `OperationResponse` valident correctement les inputs |
-| T4    | Route POST /calculate                      | 2 SP         | 18/06     | Reçoit une expression, retourne un JSON avec le résultat. Gère les erreurs |
-| T5    | Création des modèles ORM SQLAlchemy        | 2 SP         | 18/06     | Modèle `Operation(id, expression, result)` persisté via PostgreSQL |
-| T6    | Ajout du service de persistance            | 3 SP         | 19/06     | Résultats bien stockés et récupérés dans la base après un calcul |
-| T7    | Route GET /export (CSV)                    | 2 SP         | 20/06     | Fichier CSV bien généré avec les colonnes `ID, Expression, Result`, téléchargeable |
-| T8    | Dockerisation de l’app FastAPI             | 2 SP         | 21/06     | Dockerfile fonctionnel. Démarrage avec `uvicorn` depuis Docker |
-| T9    | docker-compose pour PostgreSQL + API       | 3 SP         | 22/06     | `docker-compose up` démarre l’API et la BDD avec persistance locale |
-| T10   | Documentation technique (README + Swagger) | 1 SP         | 23/06     | README complet, endpoints documentés via `/docs` (Swagger) |
-| T11   | Export CSV : tests fonctionnels            | 1 SP         | 24/06     | CSV validé, testé avec au moins 5 expressions en base |
-| T12   | Tests unitaires + intégration CI GitHub    | 3 SP         | 25/06     | Tests du calcul, des routes API, des erreurs. CI intégrée avec `pytest` via GitHub Actions |
+- RPN Calculation (Reverse Polish Notation)
+- FastAPI REST API
+- PostgreSQL Storage
+- CSV Export
+- Docker Containerization with Docker Compose
 
 ---
 
-## ✅ Critères de succès globaux
+## 🗂️ Ticket Breakdown
 
-- Tous les tickets validés
-  - Tous les tests passent pour chaque fonctionnalité
-- Documentation complète et à jour
-- Projet fonctionnel via `http://localhost:8000/docs`
-- Résultats persistés dans PostgreSQL
-- Dockerisé et exécutable via `docker-compose`
-- Couverture de test minimale sur le calcul et les endpoints
-- Export CSV complet et lisible
+| ID    | Title                                      | Story Points | Due Date  | Acceptance Criteria |
+|-------|--------------------------------------------|--------------|-----------|---------------------|
+| T1    | Project Initialization + Clean Structure     | 1 SP         | 16/06     | FastAPI project structured into folders `api`, `core`, `schemas`, etc. `.env` file in place |
+| T2    | Implementation of RPN Algorithm            | 2 SP         | 17/06     | The function `rpn_calculator(expr)` handles `+`, `-`, `*`, `/` and returns the correct result |
+| T3    | Creation of Pydantic Schemas               | 1 SP         | 17/06     | The schemas `OperationRequest` and `OperationResponse` correctly validate inputs |
+| T4    | Route POST /calculate                      | 2 SP         | 18/06     | Receives an expression, returns a JSON with the result. Handles errors |
+| T5    | Creation of SQLAlchemy ORM Models          | 2 SP         | 18/06     | Model `Operation(id, expression, result)` persisted via PostgreSQL |
+| T6    | Addition of Persistence Service             | 3 SP         | 19/06     | Results well stored and retrieved from the database after a calculation |
+| T7    | Route GET /export (CSV)                    | 2 SP         | 20/06     | CSV file well generated with columns `ID, Expression, Result`, downloadable |
+| T8    | Dockerization of FastAPI App               | 2 SP         | 21/06     | Functional Dockerfile. Starts with `uvicorn` from Docker |
+| T9    | docker-compose for PostgreSQL + API       | 3 SP         | 22/06     | `docker-compose up` starts the API and the DB with local persistence |
+| T10   | Technical Documentation (README + Swagger) | 1 SP         | 23/06     | Complete README, endpoints documented via `/docs` (Swagger) |
+| T11   | Export CSV: Functional Tests                | 1 SP         | 24/06     | CSV validated, tested with at least 5 expressions in the database |
+| T12   | Unit Tests + CI Integration GitHub         | 3 SP         | 25/06     | Tests for calculation, API routes, errors. CI integrated with `pytest` via GitHub Actions |
 
 ---
 
-## 🔧 Lancement rapide
+## ✅ Global Success Criteria
 
-### 📦 Prérequis
+- All tickets validated
+  - All tests pass for each feature
+- Complete and up-to-date documentation
+- Functional project via `http://localhost:8000/docs`
+- Results persisted in PostgreSQL
+- Dockerized and executable via `docker-compose`
+- Minimum test coverage on calculation and endpoints
+- Complete and readable CSV export
+
+---
+
+## 🔧 Quick Start
+
+### 📦 Prerequisites
 
 - Docker / Docker Compose
-- Python 3.10+ (pour les tests locaux)
+- Python 3.10+ (for local testing)
 - Git
 
-### ▶️ Exécution
+### 📂 Accessing Endpoints
 
-```bash
-docker-compose up --build
-```
+- **Swagger Documentation**: [http://localhost:8000/docs](http://localhost:8000/docs)
+- **API**: [http://localhost:8000](http://localhost:8000)
 
-### 📂 Accès aux endpoints
-
-- **Documentation Swagger**: [http://localhost:8000/docs](http://localhost:8000/docs)
-- **API**: [http://localhost:8000/api/v1](http://localhost:8000/api/v1)
-
-### 🧪 Tester en local
+### 🧪 Testing Locally
 
 ```bash
 curl -X POST "http://localhost:8000/calculate" -H "Content-Type: application/json" -d '{"expression": "5 1 2 + 4 * + 3 -"}'
 ```
 
-Réponse attendue :
+Expected response:
 
 ```json
 {
@@ -182,21 +176,21 @@ Réponse attendue :
 curl -X GET "http://localhost:8000/export" -H "Accept: text/csv"
 ```
 
-Réponse attendue : fichier CSV téléchargeable avec les opérations effectuées.
+Expected response: downloadable CSV file with the performed operations.
 
 ### 🤝 Contributions
 
-Pour toute contribution, merci de :
+For any contribution, please:
 
-Créer une branche au même nom que le ticket `rnp-t<ID>`
-Chaque commit doit être lié à un ticket Jira et suivre le format `rnp-t<ID> - Description du commit`
-Faire une PR vers la branche `dev`
+Create a branch with the same name as the ticket `rnp-t<ID>`
+Each commit must be linked to a Jira ticket and follow the format `rnp-t<ID> - Commit description`
+Make a PR to the `dev` branch
 
-Suivre le style de code (formatage Black + type hints)
+Follow the code style (Black formatting + type hints)
 
-Écrire des tests unitaires pour toute logique métier
+Write unit tests for any business logic
 
-Pour run le projet en local, créer un environnement virtuel et un fichier `.env` à la racine et remplacer les valeurs par défaut (assurez-vous d'avoir PostgreSQL installé et en cours d'exécution) :
+To run the project locally, create a virtual environment and a `.env` file at the root and replace the default values (make sure you have PostgreSQL installed and running):
 
 ```bash
 cp example.env .env
@@ -204,11 +198,11 @@ cp example.env .env
 
 PS:
 
-- Assurez-vous d'avoir les dépendances installées via `pip install -r requirements.txt` avant de lancer le projet.
+- Make sure to have the dependencies installed via `pip install -r requirements.txt` before starting the project.
 
-- La containerisation avec Docker sera faite en pair avec le DevOps Engineer/Tech Lead pour une montée en compétences.
+- Containerization with Docker will be done in collaboration with the DevOps Engineer/Tech Lead for skill development.
 
-### 👨‍🔧 Mainteneur
+### 👨‍🔧 Maintainer
 
-Tech Lead : John Doe
-Contact : [john.doe@projet.dev](mailto:john.doe@projet.dev)
+Tech Lead : Dieuveille BOUSSA
+Contact : [dieuveille.boussa@projet.dev](mailto:dieuveille.boussa@projet.dev)
