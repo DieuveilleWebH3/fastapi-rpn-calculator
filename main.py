@@ -5,7 +5,7 @@ from app.db.database import Base, engine
 
 app = FastAPI(
     title="RPN Calculator API",
-    description="API REST pour évaluer des expressions en notation polonaise inverse (RPN).",
+    description="REST API to evaluate expressions in Reverse Polish Notation (RPN).",
     version="1.0.0",
 )
 
