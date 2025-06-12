@@ -188,11 +188,25 @@ Réponse attendue : fichier CSV téléchargeable avec les opérations effectuée
 
 Pour toute contribution, merci de :
 
-Créer une branche feature/<nom-ticket>
+Créer une branche au même nom que le ticket `rnp-t<ID>`
+Chaque commit doit être lié à un ticket Jira et suivre le format `rnp-t<ID> - Description du commit`
+Faire une PR vers la branche `dev`
 
 Suivre le style de code (formatage Black + type hints)
 
 Écrire des tests unitaires pour toute logique métier
+
+Pour run le projet en local, créer un environnement virtuel et un fichier `.env` à la racine et remplacer les valeurs par défaut (assurez-vous d'avoir PostgreSQL installé et en cours d'exécution) :
+
+```bash
+cp example.env .env
+```
+
+PS:
+
+- Assurez-vous d'avoir les dépendances installées via `pip install -r requirements.txt` avant de lancer le projet.
+
+- La containerisation avec Docker sera faite en pair avec le DevOps Engineer/Tech Lead pour une montée en compétences.
 
 ### 👨‍🔧 Mainteneur
 
