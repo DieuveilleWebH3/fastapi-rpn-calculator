@@ -66,6 +66,40 @@ Le projet est découpé et géré selon une méthodologie **Scrum** avec des **t
 
 ---
 
+## 🧱 Organisation technique
+
+### 📁 Arborescence Clean Architecture (inspirée SOLID)
+
+```arduino
+app/
+├── github/              # intégration GitHub (actions, workflows)
+│   ├── workflows/
+│   │   ├── ci.yml
+├── api/                 # routes FastAPI
+│   ├── routes.py
+├── core/             # logique métier (calcul NPI)
+│   ├── rpn.py
+├── db/               # modèles ORM, sessions
+│   ├── database.py
+├── models/               # modèles ORM, sessions
+│   ├── models.py
+├── schemas/          # pydantic schemas
+│   ├── schemas.py
+├── services/         # services métier
+│   ├── services.py
+tests/
+├── test_integration.py
+├── test_rpn.py
+.env
+docker-compose.yml
+Dockerfile
+example.env
+main.py
+README.md
+requirements.txt
+wait-for-db.sh
+```
+
 ## 📦 Fonctionnalités
 
 - Calcul RPN (notation polonaise inverse)
@@ -98,6 +132,8 @@ Le projet est découpé et géré selon une méthodologie **Scrum** avec des **t
 ## ✅ Critères de succès globaux
 
 - Tous les tickets validés
+  - Tous les tests passent pour chaque fonctionnalité
+- Documentation complète et à jour
 - Projet fonctionnel via `http://localhost:8000/docs`
 - Résultats persistés dans PostgreSQL
 - Dockerisé et exécutable via `docker-compose`
