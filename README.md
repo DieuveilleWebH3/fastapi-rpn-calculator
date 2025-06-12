@@ -95,6 +95,7 @@ docker-compose.yml
 Dockerfile
 example.env
 main.py
+pytest.ini
 README.md
 requirements.txt
 wait-for-db.sh
