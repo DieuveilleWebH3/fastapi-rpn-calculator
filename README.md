@@ -182,8 +182,8 @@ Expected response: downloadable CSV file with the performed operations.
 
 For any contribution, please:
 
-Create a branch with the same name as the ticket `rnp-t<ID>`
-Each commit must be linked to a Jira ticket and follow the format `rnp-t<ID> - Commit description`
+Create a branch with the same name as the ticket `rpn-t<ID>`
+Each commit must be linked to a Jira ticket and follow the format `rpn-t<ID> - Commit description`
 Make a PR to the `dev` branch
 
 Follow the code style (Black formatting + type hints)
