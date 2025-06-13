@@ -1,7 +1,9 @@
 import os
 import pytest
+from fastapi import BackgroundTasks
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
+from unittest.mock import patch
 from app.models.models import Base, Operation
 from services.services import compute_and_save, export_csv, get_operations_paginated
 
@@ -34,13 +36,15 @@ def test_get_operations_paginated(db: Session):
     assert isinstance(ops[0], Operation)
 
 def test_export_csv(db: Session):
-    response = export_csv(db)
-    assert response.status_code == 200
-    assert response.filename == "operations.csv"
-    assert os.path.exists(response.path)
-    # Check CSV content
-    with open(response.path, "r") as f:
-        lines = f.readlines()
-        assert lines[0].strip() == "ID,Expression,Result"
-        assert any("2 3 +" in line for line in lines)
-    os.remove(response.path)
+    background_tasks = BackgroundTasks()
+    with patch.object(background_tasks, "add_task", lambda *args, **kwargs: None):  # type: ignore
+        response = export_csv(db, background_tasks)
+        assert response.status_code == 200
+        assert response.filename == "operations.csv"
+        assert os.path.exists(response.path)
+        # Check CSV content
+        with open(response.path, "r") as f:
+            lines = f.readlines()
+            assert lines[0].strip() == "ID,Expression,Result"
+            assert any("2 3 +" in line for line in lines)
+        os.remove(response.path)
