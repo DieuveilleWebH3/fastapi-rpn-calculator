@@ -9,7 +9,7 @@ DATABASE_URL = "sqlite:///:memory:"
 engine = create_engine(DATABASE_URL)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-@pytest.fixture(scope="module", autouse=True)
+@pytest.fixture()
 def setup_database():
     Base.metadata.create_all(bind=engine)
     yield
