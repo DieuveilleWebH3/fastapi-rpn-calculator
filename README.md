@@ -77,28 +77,30 @@ app/
 │   │   ├── ci.yml
 ├── api/                 # FastAPI routes
 │   ├── routes.py
-├── core/             # business logic (RPN calculation)
+├── core/                # business logic (RPN calculation)
 │   ├── rpn.py
-├── db/               # ORM models, sessions
+├── db/                  # ORM models, sessions
 │   ├── database.py
-├── models/               # ORM models, sessions
+├── models/              # ORM models, sessions
 │   ├── models.py
-├── schemas/          # Pydantic schemas
+├── schemas/             # Pydantic schemas
 │   ├── schemas.py
-├── services/         # business services
+├── services/            # business services
 │   ├── services.py
 tests/
+├── test_database.py
 ├── test_integration.py
+├── test_models.py
+├── test_routes.py
 ├── test_rpn.py
+├── test_services.py
 .env
-docker-compose.yml
 Dockerfile
 example.env
 main.py
 pytest.ini
 README.md
 requirements.txt
-wait-for-db.sh
 ```
 
 ## 📦 Features
@@ -213,6 +215,61 @@ PS:
 - Make sure to have the dependencies installed via `pip install -r requirements.txt` before starting the project.
 
 - Containerization with Docker will be done in collaboration with the DevOps Engineer/Tech Lead for skill development.
+
+---
+
+### Common Issues
+
+#### Docker cannot access local host PostgreSQL Database
+
+1. **Verify PostgreSQL Host**
+
+   The localhost in your Docker container refers to the container itself, not your host machine.
+   If PostgreSQL is running on your host machine, you need to use the host's IP address or host.docker.internal (on Docker Desktop for Windows/Mac).
+
+   <br>
+
+   Update your .env file to use host.docker.internal for DB_HOST:
+
+   ```bash
+   DB_HOST=host.docker.internal
+   ```
+
+2. **Expose PostgreSQL to the Docker Container**
+
+   Ensure PostgreSQL is configured to accept connections from the Docker container.
+
+   <br>
+
+   Edit pg_hba.conf: Locate the pg_hba.conf file (usually in the PostgreSQL data directory) and add the following line:
+
+   ```bash
+   host    all             all             0.0.0.0/0            md5
+   ```
+
+   Edit postgresql.conf: Locate the postgresql.conf file and ensure the listen_addresses setting includes *:
+
+   ```bash
+   listen_addresses = '*'
+   ```
+
+   Restart PostgreSQL: Restart the PostgreSQL service to apply the changes:
+
+   ```bash
+   sudo systemctl restart postgresql
+   ```
+
+   NB:
+
+   Allowing 0.0.0.0/0 in pg_hba.conf exposes the database to all networks. Consider restricting the CIDR to specific IP ranges or use Docker network aliases to limit access.
+
+   ```bash
+   host    all             all             192.168.0.0/16            md5
+   ```
+
+   ⚠️ Note: This configuration is for development purposes only. Replace 192.168.0.0/16 with the specific IP range of your Docker network or private network. Do not use 0.0.0.0/0 in production environments as it exposes the database to all networks.
+
+---
 
 ### 👨‍🔧 Maintainer
 
