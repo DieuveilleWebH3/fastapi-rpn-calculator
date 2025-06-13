@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api import routes
-from app.db.database import Base, engine
+from app.db.database import Base, get_engine_and_session
 
 app = FastAPI(
     title="RPN Calculator API",
@@ -17,5 +17,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+engine, _ = get_engine_and_session()
 Base.metadata.create_all(bind=engine)
 app.include_router(routes.router)

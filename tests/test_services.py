@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 from unittest.mock import patch
 from app.models.models import Base, Operation
-from services.services import compute_and_save, export_csv, get_operations_paginated
+from app.services.services import compute_and_save, export_csv, get_operations_paginated
 
 DATABASE_URL = "sqlite:///:memory:"
 engine = create_engine(DATABASE_URL)

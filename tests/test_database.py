@@ -18,8 +18,8 @@ def setup_database():
 def test_get_db_yields_session_and_closes():
     # Patch SessionLocal to use the test session
     from app.db import database
-    original_session_local = database.SessionLocal
-    database.SessionLocal = TestingSessionLocal
+    original_session_local = database.get_engine_and_session()[1]
+    database.set_session_local(TestingSessionLocal)
 
     gen = get_db()
     session = next(gen)
@@ -43,4 +43,4 @@ def test_get_db_yields_session_and_closes():
         pass
 
     # Restore original SessionLocal
-    database.SessionLocal = original_session_local
+    database.set_session_local(original_session_local)
