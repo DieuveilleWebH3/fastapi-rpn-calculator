@@ -5,10 +5,9 @@ ENV POETRY_VIRTUALENVS_CREATE=false
 
 WORKDIR /app
 
-# Install netcat for wait-for-db.sh
-RUN apt-get update && apt-get install -y netcat-openbsd && apt-get clean
-# Install system dependencies
-RUN apt-get update && apt-get install -y curl build-essential libpq-dev
+# Install netcat for wait-for-db.sh and system dependencies
+RUN apt-get update && apt-get install -y netcat-openbsd curl build-essential libpq-dev && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Poetry
 RUN curl -sSL https://install.python-poetry.org | python3 - && \
