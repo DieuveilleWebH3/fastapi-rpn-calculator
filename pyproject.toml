@@ -1,0 +1,30 @@
+[project]
+name = "rpn-calculator-api"
+version = "0.1.0"
+description = "FastAPI calculator REST API to evaluate expressions in Reverse Polish Notation (RPN)."
+authors = [
+    {name = "Dieuveille BOUSSA", email = "dieuveille.boussa@projet.dev"}
+]
+readme = "README.md"
+
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.110.0"
+uvicorn = {extras = ["standard"], version = "^0.27.0"}
+sqlalchemy = "^2.0.0"
+psycopg2-binary = "^2.9.9"
+pydantic = "^2.6.1"
+python-dotenv = "^1.0.1"
+httpx = "^0.28.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.1"
+pytest-cov = "^5.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
