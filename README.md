@@ -95,12 +95,14 @@ tests/
 ├── test_rpn.py
 ├── test_services.py
 .env
+docker-compose.yml
 Dockerfile
 example.env
 main.py
 pytest.ini
 README.md
 requirements.txt
+wait-for-db.sh
 ```
 
 ## 📦 Features
