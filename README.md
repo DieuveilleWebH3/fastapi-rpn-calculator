@@ -259,6 +259,16 @@ PS:
    sudo systemctl restart postgresql
    ```
 
+   NB:
+
+   Allowing 0.0.0.0/0 in pg_hba.conf exposes the database to all networks. Consider restricting the CIDR to specific IP ranges or use Docker network aliases to limit access.
+
+   ```bash
+   host    all             all             192.168.0.0/16            md5
+   ```
+
+   ⚠️ Note: This configuration is for development purposes only. Replace 192.168.0.0/16 with the specific IP range of your Docker network or private network. Do not use 0.0.0.0/0 in production environments as it exposes the database to all networks.
+
 ---
 
 ### 👨‍🔧 Maintainer
