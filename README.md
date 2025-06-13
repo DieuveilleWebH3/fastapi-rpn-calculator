@@ -197,6 +197,17 @@ To run the project locally, create a virtual environment and a `.env` file at th
 cp example.env .env
 ```
 
+For a local PostgreSQL database, you can use the following settings in your `.env` file after creating the database rpn_db:
+
+```env
+POSTGRES_USER=POSTGRES_USER
+POSTGRES_PASSWORD=POSTGRES_PASSWORD
+POSTGRES_DB=rpn_db
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+DATABASE_URL=postgresql://POSTGRES_USER:POSTGRES_PASSWORD@localhost:5432/rpn_db
+```
+
 PS:
 
 - Make sure to have the dependencies installed via `pip install -r requirements.txt` before starting the project.

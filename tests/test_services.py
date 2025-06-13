@@ -1,4 +1,5 @@
 import os
+import tempfile
 import pytest
 from fastapi import BackgroundTasks
 from sqlalchemy import create_engine
@@ -7,17 +8,21 @@ from unittest.mock import patch
 from app.models.models import Base, Operation
 from app.services.services import compute_and_save, export_csv, get_operations_paginated
 
-DATABASE_URL = "sqlite:///:memory:"
-engine = create_engine(DATABASE_URL)
-TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def db():
+    db_fd, db_path = tempfile.mkstemp(suffix=".db")
+    url = f"sqlite:///{db_path}"
+    engine = create_engine(url)
+    TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     Base.metadata.create_all(bind=engine)
     session = TestingSessionLocal()
     yield session
     session.close()
     Base.metadata.drop_all(bind=engine)
+    engine.dispose()
+    os.close(db_fd)
+    os.remove(db_path)
 
 def test_compute_and_save(db: Session):
     result = compute_and_save("2 3 +", db)
@@ -36,6 +41,7 @@ def test_get_operations_paginated(db: Session):
     assert isinstance(ops[0], Operation)
 
 def test_export_csv(db: Session):
+    compute_and_save("2 3 +", db)
     background_tasks = BackgroundTasks()
     with patch.object(background_tasks, "add_task", lambda *args, **kwargs: None):  # type: ignore
         response = export_csv(db, background_tasks)
@@ -48,3 +54,4 @@ def test_export_csv(db: Session):
             assert lines[0].strip() == "ID,Expression,Result"
             assert any("2 3 +" in line for line in lines)
         os.remove(response.path)
+

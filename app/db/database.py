@@ -33,3 +33,8 @@ def get_db():
 def set_session_local(session_local: sessionmaker[Session]) -> None:
     global _SessionLocal
     _SessionLocal = session_local
+
+def reset_engine_and_session() -> None:
+    global _engine, _SessionLocal
+    _engine = None
+    _SessionLocal = None
