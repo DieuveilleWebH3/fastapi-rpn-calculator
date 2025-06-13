@@ -26,13 +26,5 @@ def export_csv(db: Session) -> FileResponse:
 
     return FileResponse(temp_path, filename="operations.csv")
 
-    # path = "/tmp/export.csv"
-    # with open(path, "w") as f:
-    #     writer = csv.writer(f)
-    #     writer.writerow(["ID", "Expression", "Result"])
-    #     for op in ops:
-    #         writer.writerow([op.id, op.expression, op.result])  # type: ignore
-    # return FileResponse(path, filename="operations.csv")
-
 def get_operations_paginated(skip: int, limit: int, db: Session) -> list[Operation]:
     return db.query(Operation).offset(skip).limit(limit).all()
