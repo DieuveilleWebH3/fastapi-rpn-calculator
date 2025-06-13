@@ -62,15 +62,3 @@ def test_delete_operation(db: Session):
     db.commit()
     op = db.query(Operation).filter_by(expression="2 3 +").first()
     assert op is None
-
-
-def teardown_module(_):
-    from app.db.database import get_engine_and_session
-    try:
-        engine, _ = get_engine_and_session()
-        engine.dispose()  # Close all connections and release the file
-        os.remove("test.db")
-    except FileNotFoundError:
-        pass
-    except PermissionError:
-        pass

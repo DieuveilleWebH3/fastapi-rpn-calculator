@@ -6,20 +6,6 @@ from fastapi.testclient import TestClient
 from typing import Any
 
 
-
-# @pytest.fixture
-# def db_url():
-#     # Use a temporary file for each test
-#     db_fd, db_path = tempfile.mkstemp(suffix=".db")
-#     url = f"sqlite:///{db_path}"
-#     os.environ["DATABASE_URL"] = url
-#     yield url
-#     os.close(db_fd)
-#     try:
-#         os.remove(db_path)
-#     except FileNotFoundError:
-#         pass
-
 @pytest.fixture
 def client():
     db_fd, db_path = tempfile.mkstemp(suffix=".db")
@@ -78,13 +64,6 @@ def test_export_route(client: TestClient):
     assert "2 3 +" in content
 
 def test_list_operations_route(client: TestClient):
-
-    print("\n")
-    response = client.get("/operations?skip=0&limit=5")
-    assert response.status_code == 200
-    print(response.json())  # Debugging output
-    print("\n")
-
     # Add some operations
     client.post("/calculate", json={"expression": "9 9 +"})
     client.post("/calculate", json={"expression": "4 5 +"})
@@ -96,8 +75,6 @@ def test_list_operations_route(client: TestClient):
     response = client.get("/operations?skip=0&limit=5")
     assert response.status_code == 200
 
-    print(response.json())  # Debugging output
-
     assert len(response.json()) == 5  # Ensure we get exactly 5 results
 
     data: list[dict[str, Any]] = response.json()
@@ -106,15 +83,3 @@ def test_list_operations_route(client: TestClient):
     assert any(op["expression"] == "4 5 +" for op in data)
     assert any(op["expression"] == "6 7 +" for op in data)
     assert any(op["expression"] == "7 8 +" for op in data)
-
-
-# def teardown_module(_):
-#     from app.db.database import get_engine_and_session
-#     try:
-#         engine, _ = get_engine_and_session()
-#         engine.dispose()  # Close all connections and release the file
-#         os.remove("test.db")
-#     except FileNotFoundError:
-#         pass
-#     except PermissionError:
-#         pass
