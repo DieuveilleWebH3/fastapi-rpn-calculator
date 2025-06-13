@@ -1,0 +1,59 @@
+name: CI Dev Branch
+
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ dev ]
+
+jobs:
+  test:
+    name: Test Coverage (${{ github.base_ref }})
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: rpn_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install Poetry
+      run: |
+        curl -sSL https://install.python-poetry.org | python3 -
+        echo "PATH=$HOME/.local/bin:$PATH" >> $GITHUB_ENV
+
+    - name: Configure Poetry
+      run: |
+        poetry config virtualenvs.create false
+        poetry install --no-interaction --no-root
+
+    - name: Set DATABASE_URL
+      run: echo "DATABASE_URL=postgresql://user:password@localhost:5432/rpn_db" >> $GITHUB_ENV
+
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        for i in {1..10}; do
+          pg_isready -h localhost -p 5432 -U user && break
+          echo "Waiting for postgres..."
+          sleep 3
+        done
+
+    - name: Run Tests
+      run: poetry run pytest --cov=app tests/ --cov-report=xml --cov-fail-under=90 -v
