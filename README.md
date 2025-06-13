@@ -423,6 +423,8 @@ PS:
 
 - [ ] Separate Dev and Prod Environments (Dockerfiles, docker-compose)
 
+- [ ] Add a logging system (e.g., using Python's logging module or a third-party service)
+
 - [ ] Add lintering and formatting tools (Black, Ruff, mypy)
 
 - [ ] Add more actions to the CI/CD pipeline (e.g., Docker build, push to registry, deploy to staging)
