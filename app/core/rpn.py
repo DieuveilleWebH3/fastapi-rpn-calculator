@@ -23,6 +23,9 @@ def rpn_calculator(expression: str) -> float:
             except IndexError:
                 raise ValueError("Insufficient operands")
 
+            if token == "/" and b == 0:
+                raise ZeroDivisionError("Division by zero is not allowed.")
+
             stack.append(calculation_dictionary[token](a, b))
         else:
             try:
